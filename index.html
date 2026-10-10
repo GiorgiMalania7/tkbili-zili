@@ -1,0 +1,431 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ტკბილი ძილი</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@500;700&family=Noto+Sans+Georgian:wght@400;500;600&display=swap">
+<style>
+/* Layout: one night-sky column. Left-aligned hero with a moon, then four play sections divided by thin lines. */
+:root {
+  --night: #15122e;
+  --night-2: #1f1a42;
+  --line: #3a3470;
+  --moon: #f6ecd0;
+  --rose: #ffb4c8;
+  --lav: #b9b0ff;
+  --text: #ece8ff;
+  --muted: #a9a3d6;
+  --font-display: "Noto Serif Georgian", Georgia, serif;
+  --font-body: "Noto Sans Georgian", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: radial-gradient(120% 60% at 80% 0%, #2c2461 0%, var(--night) 60%) fixed, var(--night);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  padding-inline: 1rem;
+  padding-block: 0 4rem;
+  position: relative;
+  overflow-x: hidden;
+}
+#stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+#stars i {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: var(--moon); opacity: .25;
+  animation: twinkle 4s ease-in-out infinite;
+}
+@keyframes twinkle { 50% { opacity: .9; transform: scale(1.5); } }
+main { position: relative; z-index: 1; max-width: 60rem; margin-inline: auto; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; line-height: 1.25; margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; border-radius: 6px; }
+
+.hero {
+  display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 2rem 3rem;
+  padding-block: 4rem 3.5rem;
+}
+.hero-text { flex: 1 1 20rem; min-width: 0; }
+.hero h1 { font-size: clamp(2.2rem, 7vw, 3.8rem); font-weight: 700; }
+.hero h1 span { color: var(--rose); }
+.hero p { color: var(--muted); max-width: 34rem; margin: 1.25rem 0 1.75rem; }
+.moon {
+  flex: 0 0 auto; width: 9rem; height: 9rem; border-radius: 50%;
+  box-shadow: inset -2.2rem .5rem 0 0 var(--moon);
+  filter: drop-shadow(0 0 1.6rem rgba(246, 236, 208, .45));
+  animation: float 7s ease-in-out infinite;
+}
+@keyframes float { 50% { transform: translateY(-.6rem) rotate(-4deg); } }
+
+.music { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.btn {
+  background: var(--rose); color: #3a1230; border: 0; border-radius: 2rem;
+  padding: .7rem 1.5rem; font-weight: 600; transition: transform .15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+.vol { display: flex; align-items: center; gap: .6rem; color: var(--muted); font-size: .9rem; }
+.vol input { accent-color: var(--rose); width: 8rem; }
+
+section.play { border-top: 1px solid var(--line); padding-block: 2.75rem; }
+section.play h2 { font-size: clamp(1.5rem, 4.5vw, 2rem); }
+section.play > p { color: var(--muted); max-width: 36rem; margin: .6rem 0 1.5rem; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-bottom: 1rem; }
+.score { font-variant-numeric: tabular-nums; color: var(--lav); font-weight: 500; }
+
+/* star catcher */
+.sky {
+  position: relative; height: 22rem; overflow: hidden; border-radius: 1.25rem;
+  background: linear-gradient(#1b1640, #2a2257); border: 1px solid var(--line);
+}
+.fall {
+  position: absolute; top: 0; border: 0; background: none; font-size: 2.4rem; line-height: 1;
+  color: var(--moon); text-shadow: 0 0 14px rgba(246, 236, 208, .9);
+  padding: .5rem; animation: fall linear forwards;
+}
+@keyframes fall { from { transform: translateY(-3rem); } to { transform: translateY(24rem); } }
+.fall.caught { animation: pop .4s ease-out forwards; pointer-events: none; }
+@keyframes pop { to { transform: scale(2.2); opacity: 0; } }
+.say {
+  min-height: 3.2rem; margin-top: 1rem; font-family: var(--font-display);
+  font-size: 1.2rem; color: var(--rose); text-wrap: balance;
+}
+
+/* memory */
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; max-width: 28rem; }
+.card {
+  aspect-ratio: 1; border-radius: 1rem; border: 1px solid var(--line);
+  background: var(--night-2); font-size: 2rem; display: grid; place-items: center;
+  transition: background .2s, transform .2s; padding: 0;
+}
+.card .face { opacity: 0; transition: opacity .2s; }
+.card.open, .card.done { background: #34296f; transform: scale(1.04); }
+.card.open .face, .card.done .face { opacity: 1; }
+.card.done { border-color: var(--rose); }
+.card:not(.open):not(.done)::after { content: "✦"; color: var(--lav); font-size: 1.2rem; opacity: .6; }
+.card { position: relative; }
+.card:not(.open):not(.done) .face { display: none; }
+
+/* wishes */
+.wish-stars { display: flex; flex-wrap: wrap; gap: .5rem; }
+.wish-stars button {
+  background: none; border: 0; font-size: 2.4rem; line-height: 1; padding: .4rem;
+  color: var(--lav); transition: transform .2s, color .2s;
+}
+.wish-stars button:hover { transform: scale(1.2) rotate(12deg); color: var(--moon); }
+.wish-stars button.used { color: var(--rose); }
+
+/* breathing */
+.breath-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; }
+.breath {
+  width: 11rem; height: 11rem; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle, #5b4ba8, #2c2461);
+  box-shadow: 0 0 2.5rem rgba(185, 176, 255, .35);
+  transform: scale(.7); transition: transform 4s ease-in-out; text-align: center;
+  font-family: var(--font-display);
+}
+.breath.in { transform: scale(1); transition-duration: 4s; }
+.breath.out { transform: scale(.7); transition-duration: 6s; }
+
+footer { border-top: 1px solid var(--line); padding-block: 3rem 1rem; text-align: center; }
+footer p { font-family: var(--font-display); font-size: 1.5rem; color: var(--moon); margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+
+<div id="stars" aria-hidden="true"></div>
+<main>
+  <header class="hero">
+    <div class="hero-text">
+      <h1>ტკბილი ძილი, <span id="name">ლამაზო</span></h1>
+      <p>დღეს კარგად გაართვი თავი და ახლა დასვენების დროა. ქვემოთ პატარა თამაშები და მუსიკა დაგხვდება, სანამ ძილი მოგეკარება.</p>
+      <div class="music">
+        <button class="btn" id="musicBtn" type="button" aria-pressed="false">მუსიკის ჩართვა</button>
+        <button class="btn ghost" id="trackBtn" type="button">ტრეკი: Wildflower</button>
+        <label class="vol" for="vol">ხმა <input id="vol" type="range" min="0" max="100" value="55"></label>
+        <audio id="song" src="wildflower.mp3" loop preload="none"></audio>
+      </div>
+    </div>
+    <div class="moon" aria-hidden="true"></div>
+  </header>
+
+  <section class="play" id="catch">
+    <h2>დაიჭირე ვარსკვლავები</h2>
+    <p>შეეხე ცაზე ჩამოვარდნილ ვარსკვლავებს. თითოეული შენთვის სათქმელს მოგიტანს. დაიჭირე ათი.</p>
+    <div class="bar">
+      <button class="btn" id="catchStart" type="button">დაწყება</button>
+      <span class="score" id="catchScore" aria-live="polite">დაჭერილი: 0 / 10</span>
+    </div>
+    <div class="sky" id="sky"></div>
+    <div class="say" id="catchSay" aria-live="polite"></div>
+  </section>
+
+  <section class="play" id="memory">
+    <h2>იპოვე წყვილები</h2>
+    <p>გადააბრუნე ორ-ორი ბარათი და იპოვე ერთნაირი სურათები.</p>
+    <div class="bar">
+      <button class="btn ghost" id="memReset" type="button">თავიდან</button>
+      <span class="score" id="memScore" aria-live="polite">სვლები: 0</span>
+    </div>
+    <div class="grid" id="memGrid"></div>
+    <div class="say" id="memSay" aria-live="polite"></div>
+  </section>
+
+  <section class="play" id="wish">
+    <h2>ვარსკვლავს სურვილი ჰკითხე</h2>
+    <p>აირჩიე ერთი ვარსკვლავი და გაიგე, რას გეუბნება დღეს ღამე.</p>
+    <div class="wish-stars" id="wishStars"></div>
+    <div class="say" id="wishSay" aria-live="polite"></div>
+  </section>
+
+  <section class="play" id="breathe">
+    <h2>ისუნთქე ნელა</h2>
+    <p>როცა წრე იზრდება, ჩაისუნთქე. როცა მცირდება, ნელა ამოისუნთქე. ხუთიოდე წრე საკმარისია.</p>
+    <div class="breath-wrap">
+      <div class="breath" id="breath" aria-live="polite"><span id="breathText">მზად ხარ?</span></div>
+      <button class="btn ghost" id="breathBtn" type="button">დაწყება</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>ღამე მშვიდობისა</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  // ცვლილებისთვის: აქ შეგიძლია სახელი ან ტექსტები შეცვალო
+  var NAME = "ლამაზო";
+  var COMPLIMENTS = [
+    "შენ ძალიან ნიჭიერი ხარ.",
+    "შენი ღიმილი ყველაფერს ანათებს.",
+    "შენ ძლიერი ხარ, ვიდრე გგონია.",
+    "შენი კეთილი გული განსაკუთრებულია.",
+    "დღეს შენ კარგად გაართვი თავი.",
+    "შენთან ყოფნა სიხარულია.",
+    "მჯერა შენი, ყველაფერი გამოგივა.",
+    "შენ ბევრ რამეს მიაღწევ.",
+    "შენ ისეთი ხარ, როგორიც უნდა იყო.",
+    "ყოველი ახალი დღე შენთვის ახალი შესაძლებლობაა."
+  ];
+  var WISHES = [
+    "დღეს რაც გაგიჭირდა, ხვალ უფრო მარტივი იქნება.",
+    "დაისვენე, შენ ამას იმსახურებ.",
+    "ტკბილი სიზმრები და დილით კარგი განწყობა.",
+    "ნუ ინერვიულებ, ყველაფერი რიგზეა.",
+    "ხვალ ახალი დღეა და შენ მზად იქნები მისთვის.",
+    "ვიღაც ახლაც შენზე ფიქრობს და გიღიმის.",
+    "ღამე მშვიდად გაგივიდეს და ლამაზად გაიღვიძო."
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  $("name").textContent = NAME;
+
+  // ფონის ვარსკვლავები
+  var bg = $("stars");
+  for (var i = 0; i < 70; i++) {
+    var s = document.createElement("i");
+    s.style.left = Math.random() * 100 + "%";
+    s.style.top = Math.random() * 100 + "%";
+    s.style.animationDelay = (Math.random() * 4).toFixed(2) + "s";
+    s.style.animationDuration = (3 + Math.random() * 3).toFixed(2) + "s";
+    bg.appendChild(s);
+  }
+
+  // ---------- მუსიკა (Web Audio, ჩაიძინე-ნანა) ----------
+  var ctx, master, delay, playing = false, timer = null, step = 0;
+  var F = { G2: 98, A2: 110, C3: 130.81, C4: 261.63, D4: 293.66, E4: 329.63, G4: 392, A4: 440, C5: 523.25 };
+  var MELODY = ["E4", 0, "G4", 0, "A4", "G4", 0, "E4",  "D4", 0, "E4", 0, "G4", 0, "E4", 0,
+                "C4", 0, "D4", 0, "E4", "D4", 0, "C4",  "D4", 0, 0, 0, "C5", 0, "A4", 0];
+  var BASS = ["C3", "A2", "C3", "G2"];
+  var STEP = 0.5;
+
+  function note(freq, t, dur, vol, type) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(master); g.connect(delay);
+    o.start(t); o.stop(t + dur + 0.1);
+  }
+  function tick() {
+    var t = ctx.currentTime + 0.05;
+    var n = MELODY[step % MELODY.length];
+    if (n) note(F[n], t, 1.6, 0.16, "sine");
+    if (step % 8 === 0) {
+      var b = BASS[(step / 8) % BASS.length];
+      note(F[b], t, 3.6, 0.2, "triangle");
+      note(F[b] * 2, t, 3.6, 0.05, "sine");
+    }
+    step++;
+  }
+  function setVol() {
+    if (master) master.gain.value = $("vol").value / 100;
+    $("song").volume = $("vol").value / 100;
+  }
+  function startMusic() {
+    if (!ctx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      ctx = new AC();
+      master = ctx.createGain(); master.connect(ctx.destination);
+      delay = ctx.createDelay(1); delay.delayTime.value = 0.42;
+      var fb = ctx.createGain(); fb.gain.value = 0.38;
+      var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1800;
+      delay.connect(lp); lp.connect(fb); fb.connect(delay); lp.connect(master);
+    }
+    if (ctx.state === "suspended") ctx.resume();
+    setVol();
+    tick();
+    timer = setInterval(tick, STEP * 1000);
+    playing = true;
+  }
+  function stopMusic() { clearInterval(timer); timer = null; playing = false; if (ctx) ctx.suspend(); }
+  var track = "song", songOn = false;
+  function isOn() { return track === "song" ? songOn : playing; }
+  function stopAll() {
+    if (playing) stopMusic();
+    $("song").pause(); songOn = false;
+  }
+  function refreshBtn() {
+    $("musicBtn").textContent = isOn() ? "მუსიკის გამორთვა" : "მუსიკის ჩართვა";
+    $("musicBtn").setAttribute("aria-pressed", isOn());
+  }
+  $("musicBtn").addEventListener("click", function () {
+    if (isOn()) { stopAll(); }
+    else if (track === "song") {
+      setVol();
+      var p = $("song").play();
+      songOn = true;
+      if (p && p.catch) p.catch(function () { songOn = false; refreshBtn(); });
+    } else { startMusic(); }
+    refreshBtn();
+  });
+  $("trackBtn").addEventListener("click", function () {
+    stopAll();
+    track = track === "song" ? "lullaby" : "song";
+    this.textContent = track === "song" ? "ტრეკი: Wildflower" : "ტრეკი: ნანა";
+    refreshBtn();
+  });
+  $("vol").addEventListener("input", setVol);
+
+  // ---------- ვარსკვლავების დაჭერა ----------
+  var sky = $("sky"), caught = 0, spawner = null, last = -1;
+  function resetCatch() {
+    clearInterval(spawner); spawner = null; sky.innerHTML = ""; caught = 0;
+    $("catchScore").textContent = "დაჭერილი: 0 / 10";
+  }
+  function spawn() {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "fall"; b.textContent = "★";
+    b.setAttribute("aria-label", "ვარსკვლავი");
+    b.style.left = Math.random() * 82 + "%";
+    b.style.animationDuration = (6 + Math.random() * 3).toFixed(1) + "s";
+    b.addEventListener("animationend", function () { if (!b.classList.contains("caught")) b.remove(); else b.remove(); });
+    b.addEventListener("click", function () {
+      if (b.classList.contains("caught")) return;
+      b.classList.add("caught");
+      caught++;
+      $("catchScore").textContent = "დაჭერილი: " + caught + " / 10";
+      var k; do { k = Math.floor(Math.random() * COMPLIMENTS.length); } while (k === last);
+      last = k;
+      $("catchSay").textContent = COMPLIMENTS[k];
+      if (caught >= 10) {
+        clearInterval(spawner); spawner = null;
+        setTimeout(function () {
+          sky.innerHTML = "";
+          $("catchSay").textContent = "ათივე დაიჭირე! შენ მართლა ვარსკვლავი ხარ.";
+          $("catchStart").textContent = "კიდევ ერთხელ";
+        }, 450);
+      }
+    });
+    sky.appendChild(b);
+  }
+  $("catchStart").addEventListener("click", function () {
+    resetCatch(); $("catchSay").textContent = "";
+    this.textContent = "თავიდან";
+    spawn(); spawner = setInterval(spawn, 1100);
+  });
+
+  // ---------- მეხსიერების თამაში ----------
+  var SYMBOLS = ["🌙", "⭐", "☁️", "💖", "🦋", "🌸"];
+  var first = null, lock = false, moves = 0, pairs = 0;
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function buildMemory() {
+    var grid = $("memGrid"); grid.innerHTML = "";
+    first = null; lock = false; moves = 0; pairs = 0;
+    $("memScore").textContent = "სვლები: 0"; $("memSay").textContent = "";
+    shuffle(SYMBOLS.concat(SYMBOLS)).forEach(function (sym) {
+      var c = document.createElement("button");
+      c.type = "button"; c.className = "card"; c.dataset.sym = sym;
+      c.setAttribute("aria-label", "ბარათი");
+      c.innerHTML = '<span class="face">' + sym + "</span>";
+      c.addEventListener("click", function () { flip(c); });
+      grid.appendChild(c);
+    });
+  }
+  function flip(c) {
+    if (lock || c.classList.contains("open") || c.classList.contains("done")) return;
+    c.classList.add("open");
+    if (!first) { first = c; return; }
+    moves++; $("memScore").textContent = "სვლები: " + moves;
+    var a = first, b = c; first = null;
+    if (a.dataset.sym === b.dataset.sym) {
+      a.classList.replace("open", "done"); b.classList.replace("open", "done");
+      pairs++;
+      $("memSay").textContent = "ყოჩაღ!";
+      if (pairs === SYMBOLS.length) $("memSay").textContent = "ყველა წყვილი იპოვე " + moves + " სვლაში. რა ჭკვიანი ხარ!";
+    } else {
+      lock = true;
+      setTimeout(function () { a.classList.remove("open"); b.classList.remove("open"); lock = false; }, 800);
+    }
+  }
+  $("memReset").addEventListener("click", buildMemory);
+  buildMemory();
+
+  // ---------- სურვილის ვარსკვლავები ----------
+  var order = shuffle(WISHES.slice()), wi = 0;
+  var ws = $("wishStars");
+  for (var n = 0; n < 7; n++) {
+    var w = document.createElement("button");
+    w.type = "button"; w.textContent = "★"; w.setAttribute("aria-label", "სურვილის ვარსკვლავი " + (n + 1));
+    w.addEventListener("click", function () {
+      this.classList.add("used");
+      $("wishSay").textContent = order[wi % order.length];
+      wi++;
+    });
+    ws.appendChild(w);
+  }
+
+  // ---------- სუნთქვა ----------
+  var br = $("breath"), brTimer = null, breathing = false, cycles = 0;
+  function phaseIn() { br.className = "breath in"; $("breathText").textContent = "ჩაისუნთქე"; }
+  function phaseOut() { br.className = "breath out"; $("breathText").textContent = "ამოისუნთქე"; }
+  function loop() {
+    phaseIn();
+    brTimer = setTimeout(function () {
+      phaseOut();
+      brTimer = setTimeout(function () {
+        cycles++;
+        if (cycles >= 5) { stopBreath("ძალიან კარგი. ახლა შეგიძლია თვალები დახუჭო."); return; }
+        loop();
+      }, 6000);
+    }, 4000);
+  }
+  function stopBreath(msg) {
+    clearTimeout(brTimer); breathing = false; br.className = "breath";
+    $("breathText").textContent = msg || "მზად ხარ?";
+    $("breathBtn").textContent = "დაწყება";
+  }
+  $("breathBtn").addEventListener("click", function () {
+    if (breathing) { stopBreath(); return; }
+    breathing = true; cycles = 0; this.textContent = "გაჩერება"; loop();
+  });
+})();
+</script>
+
+</body></html>
